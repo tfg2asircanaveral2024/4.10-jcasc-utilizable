@@ -1,0 +1,26 @@
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        # puede hacer cualquier cosa con nuestra instancia
+        - id: ${JENKINS_NOMBRE_ADMINISTRADOR:-administrador}
+          name: ${JENKINS_NOMBRE_ADMINISTRADOR:-administrador}
+          password: ${JENKINS_PASSWORD_ADMINISTRADOR:-AdministradorTFG2024}
+        # un usuario que solo puede ver los objetos de Jenkins
+        - id: 'otro'
+          name: 'otro usuario'
+          password: ${JENKINS_PASSWORD_OTRO:-OtroTFG2024}
+  authorizationStrategy:
+    globalMatrix:
+      permissions:
+        - "Overall/Administer:${JENKINS_NOMBRE_ADMINISTRADOR:-administrador}"
+        - 'Overall/Read:authenticated'
+
+unclassified:
+  location:
+    # URL de acceso a este servidor
+    # URL de acceso a este servidor, debes usar docker run con --hostname, indicando o bien 
+    # el nombre servidor-jenkins o bien cualquier otro nombre que también definas en la 
+    # variable de entorno $NOMBRE_SERVIDOR
+    url: http://${NOMBRE_SERVIDOR:servidor-jenkins}:8080
